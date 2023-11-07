@@ -1,0 +1,38 @@
+plugins {
+    id 'war'
+    id 'org.gretty' version '3.1.1'
+}
+
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+war{
+    sourceCompatibility = JavaVersion.VERSION_11
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from{
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+}
+
+tasks.register('stage'){
+    dependsOn 'build'
+    dependsOn 'clean'
+}
+
+build.mustRunAfter clean
+
+dependencies {
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
