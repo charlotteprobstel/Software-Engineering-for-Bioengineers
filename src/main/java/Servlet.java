@@ -19,7 +19,7 @@ public class Servlet extends HttpServlet {
             resp.setContentType("text/html");
             resp.getWriter().write("Hello, my patient");
         }
-        if(path.equals("/doctors")){
+        else if (path.equals("/doctors")){
             resp.setContentType("text/html");
             resp.getWriter().write("Hello, Dr.");
         }
